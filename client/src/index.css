@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Crake';
+  src: url('./assets/fonts/craketest-regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Crake';
+  src: url('./assets/fonts/craketest-bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@layer base {
+  :root {
+    --color-primary: #0D0D0D;
+    /* Main text/action color */
+    --color-secondary: #7A7A7A;
+    --color-bg-base: #F3F0EA;
+    /* Background color */
+    --color-light: #F2EFEA;
+    --color-dark: #0D0D0D;
+    --color-border-light: #D1CFC9;
+    --color-border-dark: #2A2A2A;
+
+    /* Contrast Helpers */
+    --color-on-primary: #FFFFFF;
+    --color-on-light: #0D0D0D;
+  }
+
+  .dark {
+    --color-primary: #FFFFFF;
+    --color-secondary: #B3B3B3;
+    --color-bg-base: #0D0D0D;
+    --color-light: #181818;
+    --color-dark: #0D0D0D;
+    /* Keep as dark for contrast on light things */
+    --color-border-light: #2A2A2A;
+    --color-border-dark: #FFFFFF;
+
+    /* Contrast Helpers */
+    --color-on-primary: #000000;
+    --color-on-light: #FFFFFF;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    overscroll-behavior-y: contain;
+    @apply bg-base text-primary font-body antialiased transition-colors duration-500 ease-out;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
+  a,
+  button {
+    touch-action: manipulation;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading font-normal;
+  }
+}
+
+.yarl__container {
+  background-color: rgba(0, 0, 0, 0.97) !important;
+}
+
+@media (max-width: 767px) {
+
+  .yarl__navigation_prev,
+  .yarl__navigation_next {
+    display: none !important;
+  }
+}
+
+.my-masonry-grid {
+  display: flex;
+  margin-left: -6px;
+  /* gutter size offset */
+  width: auto;
+}
+
+.my-masonry-grid_column {
+  padding-left: 6px;
+  /* gutter size */
+  background-clip: padding-box;
+}
+
+.my-masonry-grid_column>div {
+  margin-bottom: 6px;
+}
