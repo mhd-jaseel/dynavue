@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import ImageWithLoader from '../common/ImageWithLoader';
 
 const ServiceCard = ({ id, title, name, description, image, coverImage, slug, order }) => {
   const displayTitle = title || name;
@@ -11,7 +12,7 @@ const ServiceCard = ({ id, title, name, description, image, coverImage, slug, or
       <div className="relative flex flex-col h-full bg-transparent">
         {/* Card Image Container */}
         <div className="relative aspect-[4/5] overflow-hidden rounded-xl md:rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-primary/5 dark:border-white/5 transition-all duration-700 group-hover:border-primary/20 dark:group-hover:border-white/20 shadow-sm group-hover:shadow-2xl">
-          <img 
+          <ImageWithLoader 
             src={displayImage} 
             alt={displayTitle}
             loading="lazy"

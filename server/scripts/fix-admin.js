@@ -1,6 +1,6 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const User = require('./models/User');
+const User = require('../src/models/User');
 
 const fixAdmin = async () => {
   try {
@@ -8,7 +8,7 @@ const fixAdmin = async () => {
     console.log('Connected to MongoDB');
 
     const res = await User.findOneAndUpdate(
-      { email: 'admin@dynavue.com' },
+      { email: process.env.ADMIN_EMAIL },
       { $set: { role: 'admin', name: 'DYNAVUE Admin' } },
       { new: true }
     );

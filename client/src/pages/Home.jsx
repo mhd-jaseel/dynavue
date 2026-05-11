@@ -12,12 +12,8 @@ import 'swiper/css/navigation';
 import FireHero from '../components/home/FireHero';
 import ServiceCard from '../components/home/ServiceCard';
 import TestimonialGrid from '../components/reviews/TestimonialGrid';
+import ImageWithLoader from '../components/common/ImageWithLoader';
 
-import imgWedding from '../assets/images/wedding.jpg';
-import imgEngagement from '../assets/images/engagement.jpg';
-import imgPortrait from '../assets/images/portrait.jpg';
-import imgEvents from '../assets/images/events.jpg';
-import imgCandid from '../assets/images/candid.jpg';
 
 const Home = () => {
   const [highlightData, setHighlightData] = useState({
@@ -105,7 +101,7 @@ const Home = () => {
               {/* The "Frame" */}
               <div className="relative p-3 md:p-4 bg-white/5 dark:bg-white/[0.02] border border-primary/5 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-700 group-hover:shadow-[0_30px_70px_rgba(0,0,0,0.1)] group-hover:bg-white/10 dark:group-hover:bg-white/[0.05]">
                 <div className="aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-zinc-100 dark:bg-zinc-900">
-                  <img
+                  <ImageWithLoader
                     src={photo.url}
                     alt={photo.alt}
                     className="w-full h-full object-cover grayscale transition-all duration-1000 ease-out group-hover:grayscale-0 group-hover:scale-105"
@@ -212,7 +208,7 @@ const Home = () => {
             initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.8 }}
             className="w-full md:w-1/2 aspect-[3/4] md:aspect-square overflow-hidden rounded-2xl"
           >
-            <img 
+            <ImageWithLoader 
               src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=1200" 
               alt="Professional Photographer at work" 
               className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105" 
@@ -238,11 +234,13 @@ const Home = () => {
       <section className="relative py-40 md:py-52 px-6 overflow-hidden flex flex-col items-center text-center justify-center">
         {/* Cinematic Background */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src={highlightData.ctaBgImage || "https://images.unsplash.com/photo-1472653431158-6364773b2a56?auto=format&fit=crop&q=80&w=2000"} 
-            alt="Cinematic background" 
-            className="w-full h-full object-cover"
-          />
+          {highlightData.ctaBgImage && (
+            <ImageWithLoader 
+              src={highlightData.ctaBgImage} 
+              alt="Cinematic background" 
+              className="w-full h-full object-cover"
+            />
+          )}
           <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
         </div>

@@ -1,43 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import imgAboutHero from '../assets/images/about-hero.png';
 import PhotographerCard from '../components/about/PhotographerCard';
 import api from '../lib/api';
-
-import nefilImg from '../assets/images/nefil.JPG.jpeg';
-import janishImg from '../assets/images/janish.JPG.jpeg';
-import sabeelImg from '../assets/images/sabeel.jpeg';
-
-const staticTeam = [
-  {
-    _id: '1',
-    name: 'Nefil',
-    role: 'Lead Photographer',
-    image: nefilImg,
-    bio: 'Passionate about capturing the essence of every moment, specializing in editorial and documentary styles.',
-    experience: '8+ Years',
-  },
-  {
-    _id: '2',
-    name: 'Janish',
-    role: 'Senior Photographer',
-    image: janishImg,
-    bio: 'An expert in lighting and composition, dedicated to telling unique stories through stunning visuals.',
-    experience: '6+ Years',
-  },
-  {
-    _id: '3',
-    name: 'Sabeel',
-    role: 'Candid Specialist',
-    image: sabeelImg,
-    bio: 'Focuses on the quiet, unnoticed moments that truly make an event memorable.',
-    experience: '5+ Years',
-  }
-];
+import ImageWithLoader from '../components/common/ImageWithLoader';
 
 const About = () => {
-  const [team, setTeam] = useState(staticTeam);
+  const [team, setTeam] = useState([]);
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState(null);
 
@@ -75,11 +44,13 @@ const About = () => {
       
       {/* Hero */}
       <section className="relative w-full h-[60vh]">
-        <img 
-          src={content?.hero?.image || imgAboutHero} 
-          alt="Photographer" 
-          className="w-full h-full object-cover"
-        />
+        {content?.hero?.image && (
+          <img 
+            src={content?.hero?.image} 
+            alt="Photographer" 
+            className="w-full h-full object-cover"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-8 md:p-16">
           <motion.h1 
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
@@ -96,7 +67,7 @@ const About = () => {
           initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
           className="md:w-5/12"
         >
-          <img 
+          <ImageWithLoader 
             src={content?.bio?.image || "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?auto=format&fit=crop&q=80&w=800"} 
             alt="Studio" 
             className="w-full h-auto aspect-[3/4] object-cover"

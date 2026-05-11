@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Instagram, Mail, Facebook } from 'lucide-react';
+import { Instagram } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -32,14 +32,8 @@ const Footer = () => {
 
         {/* Social Links */}
         <div className="flex gap-8 mb-16">
-          <a href="#" className="text-secondary/40 hover:text-primary transition-colors duration-500" aria-label="Instagram">
+          <a href="https://www.instagram.com/dynavue.in?igsh=MXY4cGt6bW0wcm81dA==" target="_blank" rel="noopener noreferrer" className="text-secondary/40 hover:text-primary transition-colors duration-500" aria-label="Instagram">
             <Instagram size={18} strokeWidth={1.5} />
-          </a>
-          <a href="#" className="text-secondary/40 hover:text-primary transition-colors duration-500" aria-label="Facebook">
-            <Facebook size={18} strokeWidth={1.5} />
-          </a>
-          <a href="mailto:hello@dynavue.in" className="text-secondary/40 hover:text-primary transition-colors duration-500" aria-label="Email">
-            <Mail size={18} strokeWidth={1.5} />
           </a>
         </div>
 

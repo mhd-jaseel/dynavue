@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Instagram, Facebook, Globe, Star } from 'lucide-react';
 import PropTypes from 'prop-types';
+import ImageWithLoader from '../common/ImageWithLoader';
 
 const PhotographerCard = ({ 
   member, 
@@ -22,12 +23,18 @@ const PhotographerCard = ({
         
         {/* Image Container */}
         <div className="aspect-[4/5] overflow-hidden relative bg-light/50 dark:bg-black/50">
-          <img 
-            src={member.image || 'https://images.unsplash.com/photo-1554046920-90dc5f3ac26b?auto=format&fit=crop&q=80&w=800'} 
-            alt={member.name} 
-            loading="lazy"
-            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-          />
+          {member.image ? (
+            <ImageWithLoader 
+              src={member.image} 
+              alt={member.name} 
+              loading="lazy"
+              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+            />
+          ) : (
+            <div className="w-full h-full bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center">
+              <span className="text-secondary/40 text-xs">No Image</span>
+            </div>
+          )}
           
           {/* Gradient Overlay for Text Readability and Premium feel */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />

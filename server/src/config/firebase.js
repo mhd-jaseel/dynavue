@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 let privateKey = process.env.FIREBASE_PRIVATE_KEY;
 if (privateKey) {
   // Remove quotes if present
-  privateKey = privateKey.replace(/"/g, '');
+  privateKey = privateKey.replace(/['"]/g, '');
   // Replace literal \n with actual newlines
   privateKey = privateKey.replace(/\\n/g, '\n');
 }

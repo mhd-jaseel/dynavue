@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 
 async function test() {
@@ -24,7 +25,7 @@ const boundary = '----WebKitFormBoundary7MA4YWxkTrZu0gW';
     const loginRes = await fetch('http://localhost:5000/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'admin@dynavue.com', password: 'admin' }) // Guessing default credentials
+      body: JSON.stringify({ email: process.env.ADMIN_EMAIL, password: process.env.ADMIN_PASSWORD }) // Guessing default credentials
     });
     const loginData = await loginRes.json();
     const token = loginData.token;

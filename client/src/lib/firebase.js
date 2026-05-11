@@ -23,10 +23,7 @@ export const requestForToken = async () => {
         vapidKey: 'BOS6DCjK8xPu_ypi0uzW_9Zo5yrRPo9CB9DUZgB3eL4EKiaqouWeoKLIM2BgdzbaIPB4Giz7mxiR9d7eAOBhi3U'
       });
       if (token) {
-        console.log('FCM Token:', token);
         return token;
-      } else {
-        console.log('No registration token available.');
       }
     }
   } catch (err) {

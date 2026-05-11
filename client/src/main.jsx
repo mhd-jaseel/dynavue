@@ -5,7 +5,7 @@ import './index.css';
 import { ThemeProvider } from './context/ThemeContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-console.log('Google Client ID loaded:', import.meta.env.VITE_GOOGLE_CLIENT_ID);
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

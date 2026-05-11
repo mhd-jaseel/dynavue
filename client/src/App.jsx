@@ -14,17 +14,19 @@ import BottomNav from './components/layout/BottomNav';
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/common/ProtectedRoute';
 
-// Pages
-import Home from './pages/Home';
-import Portfolio from './pages/Portfolio';
-import Services from './pages/Services';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Admin from './pages/Admin';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import ProfilePage from './pages/ProfilePage';
-import BookingSuccess from './pages/BookingSuccess';
+import PageLoader from './components/common/PageLoader';
+
+// Pages (Lazy Loaded)
+const Home = React.lazy(() => import('./pages/Home'));
+const Portfolio = React.lazy(() => import('./pages/Portfolio'));
+const Services = React.lazy(() => import('./pages/Services'));
+const About = React.lazy(() => import('./pages/About'));
+const Contact = React.lazy(() => import('./pages/Contact'));
+const Admin = React.lazy(() => import('./pages/Admin'));
+const Login = React.lazy(() => import('./pages/Login'));
+const Signup = React.lazy(() => import('./pages/Signup'));
+const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
+const BookingSuccess = React.lazy(() => import('./pages/BookingSuccess'));
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -91,34 +93,36 @@ function App() {
         <BrowserRouter>
           <Toaster position="top-right" expand={false} richColors />
           <ScrollToTop />
-          <Routes>
-            <Route element={<RootLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/profile" element={
-                <ProtectedRoute allowedRoles={['user']}>
-                  <ProfilePage />
+          <React.Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route element={<RootLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/profile" element={
+                  <ProtectedRoute allowedRoles={['user']}>
+                    <ProfilePage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/booking-success" element={
+                  <ProtectedRoute allowedRoles={['user']}>
+                    <BookingSuccess />
+                  </ProtectedRoute>
+                } />
+              </Route>
+              
+              {/* Admin & Auth Routes (No standard navbar/footer) */}
+              <Route path="/admin" element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <Admin />
                 </ProtectedRoute>
               } />
-              <Route path="/booking-success" element={
-                <ProtectedRoute allowedRoles={['user']}>
-                  <BookingSuccess />
-                </ProtectedRoute>
-              } />
-            </Route>
-            
-            {/* Admin & Auth Routes (No standard navbar/footer) */}
-            <Route path="/admin" element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <Admin />
-              </ProtectedRoute>
-            } />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Routes>
+          </React.Suspense>
         </BrowserRouter>
       </Lenis>
     </AuthProvider>
