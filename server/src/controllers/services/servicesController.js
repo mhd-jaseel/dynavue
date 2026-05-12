@@ -47,7 +47,7 @@ exports.createService = async (req, res, next) => {
         }
         const filename = Date.now() + '-' + req.file.originalname.replace(/[^a-zA-Z0-9.]/g, '');
         fs.writeFileSync(path.join(uploadDir, filename), req.file.buffer);
-        imageUrl = 'http://localhost:5000/uploads/' + filename;
+        imageUrl = (process.env.BACKEND_URL || 'http://localhost:5000') + '/uploads/' + filename;
         cloudinaryId = 'local_' + filename;
       }
     }
@@ -92,7 +92,7 @@ exports.updateService = async (req, res, next) => {
         }
         const filename = Date.now() + '-' + req.file.originalname.replace(/[^a-zA-Z0-9.]/g, '');
         fs.writeFileSync(path.join(uploadDir, filename), req.file.buffer);
-        service.image.url = 'http://localhost:5000/uploads/' + filename;
+        service.image.url = (process.env.BACKEND_URL || 'http://localhost:5000') + '/uploads/' + filename;
         service.image.cloudinaryId = 'local_' + filename;
       }
     }

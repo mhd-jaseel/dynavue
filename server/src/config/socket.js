@@ -3,7 +3,8 @@ const socketIO = require('socket.io');
 const initSocket = (server) => {
   const io = socketIO(server, {
     cors: {
-      origin: process.env.CLIENT_URL || '*',
+      origin: process.env.CLIENT_URL || "https://dynavue.in",
+      methods: ["GET", "POST"],
       credentials: true
     }
   });

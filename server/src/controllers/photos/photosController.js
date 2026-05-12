@@ -63,7 +63,7 @@ exports.createPhoto = async (req, res, next) => {
       
       const photo = new Photo({
         cloudinaryId: 'local_' + filename,
-        url: 'http://localhost:5000/uploads/' + filename,
+        url: (process.env.BACKEND_URL || 'http://localhost:5000') + '/uploads/' + filename,
         title: req.body.title,
         description: req.body.description,
         category: req.body.category,

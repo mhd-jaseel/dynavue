@@ -122,7 +122,7 @@ router.post('/photos', auth, uploadMiddleware.array('images', 10), async (req, r
             fs.mkdirSync(uploadDir, { recursive: true });
           }
           fs.writeFileSync(path.join(uploadDir, filename), file.buffer);
-          url = 'http://localhost:5000/uploads/' + filename;
+          url = (process.env.BACKEND_URL || 'http://localhost:5000') + '/uploads/' + filename;
           cloudinaryId = 'local_' + filename;
         }
       } else {
@@ -130,7 +130,7 @@ router.post('/photos', auth, uploadMiddleware.array('images', 10), async (req, r
           fs.mkdirSync(uploadDir, { recursive: true });
         }
         fs.writeFileSync(path.join(uploadDir, filename), file.buffer);
-        url = 'http://localhost:5000/uploads/' + filename;
+        url = (process.env.BACKEND_URL || 'http://localhost:5000') + '/uploads/' + filename;
         cloudinaryId = 'local_' + filename;
       }
 
@@ -178,7 +178,7 @@ router.put('/cta-image', auth, uploadMiddleware.single('ctaImage'), async (req, 
       const file = req.file;
       const filename = Date.now() + '-' + file.originalname.replace(/[^a-zA-Z0-9.]/g, '');
       fs.writeFileSync(path.join(uploadDir, filename), file.buffer);
-      url = 'http://localhost:5000/uploads/' + filename;
+      url = (process.env.BACKEND_URL || 'http://localhost:5000') + '/uploads/' + filename;
     }
 
     highlight.ctaBgImage = url;

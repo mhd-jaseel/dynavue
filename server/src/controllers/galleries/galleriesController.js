@@ -80,7 +80,7 @@ exports.createGallery = async (req, res, next) => {
         
         const mediaObj = {
           cloudinaryId: 'local_' + filename,
-          url: 'http://localhost:5000/uploads/' + filename,
+          url: (process.env.BACKEND_URL || 'http://localhost:5000') + '/uploads/' + filename,
           order: i
         };
 
