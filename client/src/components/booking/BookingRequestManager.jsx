@@ -18,7 +18,7 @@ const BookingRequestManager = () => {
     setLoading(true);
     try {
       const res = await api.get(`/booking-requests/admin/all?status=${statusFilter}`);
-      setRequests(res.data.requests);
+      setRequests(res.data.requests || []);
     } catch (err) {
       console.error('Failed to fetch requests', err);
       toast.error('Failed to load requests');

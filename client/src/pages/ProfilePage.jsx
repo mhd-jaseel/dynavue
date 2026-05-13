@@ -576,7 +576,7 @@ const ProfilePage = () => {
                     className="bg-white dark:bg-white/5 p-10 rounded-[2.5rem] border border-black/5 dark:border-white/10 shadow-sm flex flex-col gap-6 hover:shadow-xl transition-all group backdrop-blur-md"
                   >
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 w-full">
-                      <div className="flex items-center gap-8">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8">
                         <div className="w-20 h-20 bg-light dark:bg-white/5 rounded-3xl overflow-hidden flex-shrink-0 border border-black/5 dark:border-white/10 group-hover:scale-105 transition-transform duration-500">
                           {getServiceImage(booking.serviceType) ? (
                             <img 
@@ -591,14 +591,14 @@ const ProfilePage = () => {
                           )}
                         </div>
                         <div className="space-y-3">
-                          <h4 className="text-2xl font-heading text-primary dark:text-white">{booking.serviceType}</h4>
-                          <div className="flex items-center gap-6 text-[10px] text-secondary/30 uppercase tracking-widest font-bold">
+                          <h4 className="text-xl sm:text-2xl font-heading text-primary dark:text-white">{booking.serviceType}</h4>
+                          <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-[10px] text-secondary/30 uppercase tracking-widest font-bold">
                             <span className="flex items-center gap-2 text-primary/50 dark:text-white/40"><Calendar size={14} className="opacity-40" /> {new Date(booking.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                             <span className="flex items-center gap-2 dark:text-white/40"><Clock size={14} className="opacity-40" /> Ref: {booking._id.substr(-6).toUpperCase()}</span>
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-6">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
                         <span className={`text-[10px] uppercase tracking-[0.2em] font-bold px-6 py-2.5 rounded-full border ${
                           booking.status === 'new' ? 'border-blue-500/20 bg-blue-50 dark:bg-blue-500/10 text-blue-500' :
                           booking.status === 'confirmed' ? 'border-green-500/20 bg-green-50 dark:bg-green-500/10 text-green-500' :

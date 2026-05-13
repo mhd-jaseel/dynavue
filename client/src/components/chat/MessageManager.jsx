@@ -53,7 +53,7 @@ const MessageManager = () => {
   const fetchConversations = async () => {
     try {
       const res = await api.get('/messages/conversations/all');
-      setConversations(res.data.data);
+      setConversations(res.data.data || []);
     } catch (err) {
       console.error('Failed to fetch conversations', err);
     }
