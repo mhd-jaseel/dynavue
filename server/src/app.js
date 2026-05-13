@@ -23,9 +23,10 @@ const aboutRoutes = require('./routes/about');
 const app = express();
 
 const allowedOrigins = [
-  process.env.CLIENT_URL,
+  'http://localhost:5173',
   'https://dynavue.in',
-  'https://www.dynavue.in'
+  'https://www.dynavue.in',
+  process.env.CLIENT_URL
 ].filter(Boolean);
 
 app.use(cors({
@@ -34,6 +35,7 @@ app.use(cors({
     if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
       callback(null, true);
     } else {
+      console.error(`CORS blocked for origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },

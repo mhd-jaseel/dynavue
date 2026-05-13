@@ -1,9 +1,16 @@
 const socketIO = require('socket.io');
 
 const initSocket = (server) => {
+  const allowedOrigins = [
+    'http://localhost:5173',
+    'https://dynavue.in',
+    'https://www.dynavue.in',
+    process.env.CLIENT_URL
+  ].filter(Boolean);
+
   const io = socketIO(server, {
     cors: {
-      origin: process.env.CLIENT_URL || "https://dynavue.in",
+      origin: allowedOrigins,
       methods: ["GET", "POST"],
       credentials: true
     }

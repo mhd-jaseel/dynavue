@@ -62,11 +62,11 @@ exports.createVideo = async (req, res, next) => {
       
       const video = new Video({
         cloudinaryId: 'local_' + filename,
-        url: (process.env.BACKEND_URL || 'http://localhost:5000') + '/uploads/' + filename,
+        url: (process.env.BACKEND_URL || '') + '/uploads/' + filename,
         title: req.body.title,
         category: req.body.category,
         duration: req.body.duration || '0:00',
-        thumbnailUrl: (process.env.BACKEND_URL || 'http://localhost:5000') + '/uploads/' + filename,
+        thumbnailUrl: (process.env.BACKEND_URL || '') + '/uploads/' + filename,
         featured: req.body.featured === 'true'
       });
 

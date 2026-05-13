@@ -81,7 +81,7 @@ router.put('/', auth, uploadMiddleware.fields([{ name: 'heroImage', maxCount: 1 
         if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
         const filename = Date.now() + '-hero-' + file.originalname.replace(/[^a-zA-Z0-9.]/g, '');
         fs.writeFileSync(path.join(uploadDir, filename), file.buffer);
-        about.hero.image = (process.env.BACKEND_URL || 'http://localhost:5000') + '/uploads/' + filename;
+        about.hero.image = (process.env.BACKEND_URL || '') + '/uploads/' + filename;
       }
     }
 
@@ -96,7 +96,7 @@ router.put('/', auth, uploadMiddleware.fields([{ name: 'heroImage', maxCount: 1 
         if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
         const filename = Date.now() + '-bio-' + file.originalname.replace(/[^a-zA-Z0-9.]/g, '');
         fs.writeFileSync(path.join(uploadDir, filename), file.buffer);
-        about.bio.image = (process.env.BACKEND_URL || 'http://localhost:5000') + '/uploads/' + filename;
+        about.bio.image = (process.env.BACKEND_URL || '') + '/uploads/' + filename;
       }
     }
 
