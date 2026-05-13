@@ -53,6 +53,20 @@ router.get('/my-enquiries', auth, async (req, res, next) => {
   }
 });
 
+router.get('/calendar', auth, async (req, res, next) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Access denied' });
+    }
+    const enquiries = await Enquiry.find({
+      status: { $in: ['confirmed', 'completed'] }
+    }).sort({ eventDate: 1 });
+    res.json({ success: true, data: enquiries });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/', auth, async (req, res, next) => {
   try {
     const enquiries = await Enquiry.find().sort({ createdAt: -1 });

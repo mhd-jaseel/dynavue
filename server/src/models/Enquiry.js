@@ -11,7 +11,7 @@ const enquirySchema = new mongoose.Schema({
   message: String,
   status: { 
     type: String, 
-    enum: ['new', 'confirmed', 'rejected', 'read', 'replied', 'cancelled'], 
+    enum: ['new', 'confirmed', 'rejected', 'read', 'replied', 'cancelled', 'completed'], 
     default: 'new' 
   },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
