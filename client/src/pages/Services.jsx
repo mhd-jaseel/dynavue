@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import FAQAccordion from '../components/services/FAQAccordion';
 import api from '../lib/api';
@@ -48,6 +49,16 @@ const Services = () => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="pb-24 transition-colors duration-500">
+      <Helmet>
+        <title>Services & Packages | DYNAVUE Wedding Photography Kerala</title>
+        <meta name="description" content="Explore our tailored photography services and packages in Kerala. Cinematic videography, wedding photography, and more." />
+        <meta name="keywords" content="wedding photography services, Kerala wedding packages, cinematic videography Kerala, photography pricing" />
+        <link rel="canonical" href="https://dynavue.in/services" />
+        <meta property="og:title" content="Services & Packages | DYNAVUE Wedding Photography Kerala" />
+        <meta property="og:description" content="Explore our tailored photography services and packages in Kerala." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dynavue.in/services" />
+      </Helmet>
       <div className="pt-32 md:pt-48 pb-16 text-center px-4">
         <h2 className="text-[10px] uppercase tracking-[0.5em] text-primary/40 mb-6 font-semibold">Our Expertise</h2>
         <h1 className="text-4xl md:text-7xl font-heading mb-6 tracking-tight">Tailored Services</h1>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useAuth } from '../context/AuthContext';
 import { Mail, Phone, MapPin, Instagram, MessageCircle, ArrowRight, User, MessageSquare } from 'lucide-react';
 import BookingForm from '../components/booking/BookingForm';
@@ -19,6 +20,16 @@ const Contact = () => {
       exit={{ opacity: 0 }}
       className="pt-32 md:pt-48 pb-24 px-6 md:px-12 transition-colors duration-500 bg-base min-h-screen"
     >
+      <Helmet>
+        <title>Contact Us | DYNAVUE Wedding Photography Kerala</title>
+        <meta name="description" content="Get in touch with DYNAVUE for booking inquiries, collaborations, and live chat. Let's tell your story." />
+        <meta name="keywords" content="contact DYNAVUE, book photographer Kerala, wedding photography inquiry, live chat support" />
+        <link rel="canonical" href="https://dynavue.in/contact" />
+        <meta property="og:title" content="Contact Us | DYNAVUE Wedding Photography Kerala" />
+        <meta property="og:description" content="Get in touch with DYNAVUE for booking inquiries, collaborations, and live chat." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dynavue.in/contact" />
+      </Helmet>
       <div className="max-w-7xl mx-auto">
 
         {/* Header: Centered and Elegant */}

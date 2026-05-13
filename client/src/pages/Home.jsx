@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ArrowUpRight, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Autoplay, Navigation } from 'swiper/modules';
@@ -70,6 +71,16 @@ const Home = () => {
   // ... rest of logic stays same ...
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="bg-base transition-colors duration-500">
+      <Helmet>
+        <title>DYNAVUE | Best Wedding Photographers in Kerala</title>
+        <meta name="description" content="DYNAVUE offers professional wedding photography and cinematic videography in Kerala. Specializing in Muslim wedding photography and creating timeless memories." />
+        <meta name="keywords" content="best wedding photographers in Kerala, Kerala wedding photography, cinematic wedding videography, wedding photography Kerala, Muslim wedding photography Kerala" />
+        <link rel="canonical" href="https://dynavue.in/" />
+        <meta property="og:title" content="DYNAVUE | Best Wedding Photographers in Kerala" />
+        <meta property="og:description" content="DYNAVUE offers professional wedding photography and cinematic videography in Kerala." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dynavue.in/" />
+      </Helmet>
       <FireHero />
 
       {/* Luxury Framed Gallery Section */}
@@ -237,7 +248,7 @@ const Home = () => {
           {highlightData.ctaBgImage && (
             <ImageWithLoader 
               src={highlightData.ctaBgImage} 
-              alt="Cinematic background" 
+              alt="DYNAVUE Wedding Photography Cinematic Background" 
               className="w-full h-full object-cover"
             />
           )}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import PhotographerCard from '../components/about/PhotographerCard';
 import api from '../lib/api';
@@ -41,13 +42,23 @@ const About = () => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="pb-20">
+      <Helmet>
+        <title>About Us | DYNAVUE Wedding Photography Kerala</title>
+        <meta name="description" content="Learn more about DYNAVUE, the best wedding photographers in Kerala. Our approach to documentary and editorial wedding photography." />
+        <meta name="keywords" content="about DYNAVUE, wedding photographers Kerala, Kerala wedding photography team, professional photographers Kozhikode" />
+        <link rel="canonical" href="https://dynavue.in/about" />
+        <meta property="og:title" content="About Us | DYNAVUE Wedding Photography Kerala" />
+        <meta property="og:description" content="Learn more about DYNAVUE, the best wedding photographers in Kerala." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dynavue.in/about" />
+      </Helmet>
       
       {/* Hero */}
       <section className="relative w-full h-[60vh]">
         {content?.hero?.image && (
           <img 
             src={content?.hero?.image} 
-            alt="Photographer" 
+            alt="DYNAVUE Wedding Photography Team" 
             className="w-full h-full object-cover"
           />
         )}
@@ -69,7 +80,7 @@ const About = () => {
         >
           <ImageWithLoader 
             src={content?.bio?.image || "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?auto=format&fit=crop&q=80&w=800"} 
-            alt="Studio" 
+            alt="DYNAVUE Photography Studio and Work" 
             className="w-full h-auto aspect-[3/4] object-cover"
           />
         </motion.div>
