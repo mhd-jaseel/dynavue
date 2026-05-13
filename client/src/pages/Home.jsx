@@ -172,7 +172,7 @@ const Home = () => {
           }}
           spaceBetween={24}
           slidesPerView={1}
-          loop={true}
+          loop={services.length > 4}
           grabCursor={true}
           breakpoints={{
             640: { slidesPerView: 2, spaceBetween: 24 },
