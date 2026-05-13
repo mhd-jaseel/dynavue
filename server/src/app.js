@@ -77,6 +77,16 @@ if (process.env.NODE_ENV !== 'production') {
     filter: (pathname) => !pathname.startsWith('/api')
   }));
 } else {
+  app.get('/sitemap.xml', (req, res) => {
+    res.header('Content-Type', 'application/xml');
+    res.sendFile(path.join(__dirname, '../../client/dist/sitemap.xml'));
+  });
+  
+  app.get('/robots.txt', (req, res) => {
+    res.header('Content-Type', 'text/plain');
+    res.sendFile(path.join(__dirname, '../../client/dist/robots.txt'));
+  });
+
   app.use(express.static(path.join(__dirname, '../../client/dist')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
