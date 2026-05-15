@@ -45,6 +45,7 @@ app.use(cors({
 }));
 app.use((req, res, next) => {
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  res.setHeader('X-Robots-Tag', 'all');
   next();
 });
 app.use(express.json());
@@ -84,13 +85,25 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 } else {
   app.get('/sitemap.xml', (req, res) => {
-    res.header('Content-Type', 'application/xml');
-    res.sendFile(path.join(__dirname, '../../client/dist/sitemap.xml'));
+    res.type('application/xml');
+    res.sendFile(path.join(__dirname, '../../client/dist/sitemap.xml'), (err) => {
+      if (err) {
+        // Fallback to public folder if dist is not yet built or file is missing
+        res.sendFile(path.join(__dirname, '../../client/public/sitemap.xml'), (err2) => {
+          if (err2) res.status(404).send('Sitemap not found');
+        });
+      }
+    });
   });
   
   app.get('/robots.txt', (req, res) => {
-    res.header('Content-Type', 'text/plain');
-    res.sendFile(path.join(__dirname, '../../client/dist/robots.txt'));
+    res.type('text/plain');
+    res.sendFile(path.join(__dirname, '../../client/dist/robots.txt'), (err) => {
+      if (err) {
+        // If file is missing from dist, serve a default allow-all robots.txt
+        res.send("User-agent: *\nAllow: /\n\nSitemap: https://dynavue.in/sitemap.xml");
+      }
+    });
   });
 
   app.use(express.static(path.join(__dirname, '../../client/dist')));

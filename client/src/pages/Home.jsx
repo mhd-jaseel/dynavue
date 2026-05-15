@@ -73,6 +73,7 @@ const Home = () => {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="bg-base transition-colors duration-500">
       <Helmet>
         <title>DYNAVUE | Best Wedding Photographers in Kerala</title>
+        <meta name="robots" content="index, follow" />
         <meta name="description" content="DYNAVUE offers professional wedding photography and cinematic videography in Kerala. Specializing in Muslim wedding photography and creating timeless memories." />
         <meta name="keywords" content="best wedding photographers in Kerala, Kerala wedding photography, cinematic wedding videography, wedding photography Kerala, Muslim wedding photography Kerala" />
         <link rel="canonical" href="https://dynavue.in/" />

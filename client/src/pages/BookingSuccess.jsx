@@ -1,6 +1,7 @@
 import { useLocation, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { CheckCircle, Calendar, Camera, User, ArrowRight } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 const BookingSuccess = () => {
   const location = useLocation();
@@ -12,6 +13,9 @@ const BookingSuccess = () => {
 
   return (
     <div className="min-h-screen bg-[#F8F7F4] dark:bg-[#0A0A0A] flex items-center justify-center px-6 py-20 transition-colors duration-500">
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

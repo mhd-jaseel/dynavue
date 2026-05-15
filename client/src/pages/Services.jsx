@@ -51,6 +51,7 @@ const Services = () => {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="pb-24 transition-colors duration-500">
       <Helmet>
         <title>Services & Packages | DYNAVUE Wedding Photography Kerala</title>
+        <meta name="robots" content="index, follow" />
         <meta name="description" content="Explore our tailored photography services and packages in Kerala. Cinematic videography, wedding photography, and more." />
         <meta name="keywords" content="wedding photography services, Kerala wedding packages, cinematic videography Kerala, photography pricing" />
         <link rel="canonical" href="https://dynavue.in/services" />

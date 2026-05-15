@@ -47,6 +47,7 @@ const Portfolio = () => {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-h-screen bg-base transition-colors duration-500 ease-out">
       <Helmet>
         <title>Portfolio & Gallery | DYNAVUE Wedding Photography Kerala</title>
+        <meta name="robots" content="index, follow" />
         <meta name="description" content="Explore our curated portfolio of wedding photography and cinematic videography in Kerala. Best Muslim wedding photography highlights." />
         <meta name="keywords" content="wedding photography portfolio, Kerala wedding gallery, cinematic videography highlights, photography showcase" />
         <link rel="canonical" href="https://dynavue.in/portfolio" />
