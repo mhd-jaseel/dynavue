@@ -44,8 +44,34 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use((req, res, next) => {
+  // Essential headers for OAuth and SEO
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
   res.setHeader('X-Robots-Tag', 'all');
+
+  // Security Headers to fix the report issues
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+
+  // Content Security Policy - Optimized for Dynavue production
+  const csp = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://accounts.google.com https://www.gstatic.com",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com",
+    "font-src 'self' https://fonts.gstatic.com",
+    "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://lh3.googleusercontent.com",
+    "connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://accounts.google.com ws: wss:",
+    "frame-src 'self' https://accounts.google.com",
+    "media-src 'self' https://res.cloudinary.com",
+    "manifest-src 'self'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "upgrade-insecure-requests"
+  ].join('; ');
+  res.setHeader('Content-Security-Policy', csp);
+
   next();
 });
 app.use(express.json());
