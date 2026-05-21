@@ -46,7 +46,6 @@ app.use(cors({
 app.use((req, res, next) => {
   // Essential headers for OAuth and SEO
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
-  res.setHeader('X-Robots-Tag', 'all');
 
   // Security Headers to fix the report issues
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
@@ -70,7 +69,7 @@ app.use((req, res, next) => {
     "form-action 'self'",
     "upgrade-insecure-requests"
   ].join('; ');
-  res.setHeader('Content-Security-Policy', csp);
+  // res.setHeader('Content-Security-Policy', csp);
 
   next();
 });
@@ -98,8 +97,6 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend connected successfully!', timestamp: new Date() });
 });
 
-app.use(errorHandler);
-
 // Unified UI Strategy:
 if (process.env.NODE_ENV !== 'production') {
   app.use('/', createProxyMiddleware({
@@ -110,26 +107,12 @@ if (process.env.NODE_ENV !== 'production') {
     filter: (pathname) => !pathname.startsWith('/api')
   }));
 } else {
-  app.get('/sitemap.xml', (req, res) => {
-    res.type('application/xml');
-    res.sendFile(path.join(__dirname, '../../client/dist/sitemap.xml'), (err) => {
-      if (err) {
-        // Fallback to public folder if dist is not yet built or file is missing
-        res.sendFile(path.join(__dirname, '../../client/public/sitemap.xml'), (err2) => {
-          if (err2) res.status(404).send('Sitemap not found');
-        });
-      }
-    });
-  });
-  
   app.get('/robots.txt', (req, res) => {
-    res.type('text/plain');
-    res.sendFile(path.join(__dirname, '../../client/dist/robots.txt'), (err) => {
-      if (err) {
-        // If file is missing from dist, serve a default allow-all robots.txt
-        res.send("User-agent: *\nAllow: /\n\nSitemap: https://dynavue.in/sitemap.xml");
-      }
-    });
+    res.sendFile(path.join(__dirname, '../../client/public/robots.txt'));
+  });
+
+  app.get('/sitemap.xml', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../client/public/sitemap.xml'));
   });
 
   app.use(express.static(path.join(__dirname, '../../client/dist')));
@@ -137,5 +120,7 @@ if (process.env.NODE_ENV !== 'production') {
     res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
   });
 }
+
+app.use(errorHandler);
 
 module.exports = app;
