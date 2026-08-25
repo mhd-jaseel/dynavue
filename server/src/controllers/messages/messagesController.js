@@ -6,24 +6,39 @@ const admin = require('../../config/firebase');
 exports.getMessages = async (req, res) => {
   try {
     let otherUserId = req.params.otherUserId;
-    
-    if (!otherUserId) {
-      // Find admin user
-      const adminUser = await User.findOne({ role: 'admin' });
-      if (!adminUser) return res.status(404).json({ success: false, message: 'Admin not found' });
-      otherUserId = adminUser._id;
+    const adminUsers = await User.find({ role: 'admin' }).select('_id');
+    const adminObjectIds = adminUsers.map(a => a._id);
+
+    let query;
+    if (req.user.role === 'admin') {
+      if (!otherUserId) {
+        return res.json({ success: true, data: [], otherUserId: null });
+      }
+      query = {
+        $or: [
+          { sender: otherUserId, receiver: { $in: adminObjectIds } },
+          { sender: { $in: adminObjectIds }, receiver: otherUserId }
+        ]
+      };
+    } else {
+      let targetAdminId = otherUserId;
+      if (!targetAdminId) {
+        targetAdminId = adminObjectIds[0];
+      }
+      query = {
+        $or: [
+          { sender: req.user.id, receiver: { $in: adminObjectIds } },
+          { sender: { $in: adminObjectIds }, receiver: req.user.id }
+        ]
+      };
+      otherUserId = targetAdminId;
     }
-    
-    const messages = await Message.find({
-      $or: [
-        { sender: req.user.id, receiver: otherUserId },
-        { sender: otherUserId, receiver: req.user.id }
-      ]
-    }).sort({ createdAt: -1 }).limit(20);
-    
+
+    const messages = await Message.find(query).sort({ createdAt: -1 }).limit(50);
+
     // Reverse to show in chronological order for chat UI
     messages.reverse();
-    
+
     res.json({ success: true, data: messages, otherUserId });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -67,8 +82,18 @@ exports.sendMessage = async (req, res) => {
 
     const io = req.app.get('io');
     if (io) {
-      io.to(receiver.toString()).emit('receiveMessage', message);
-      io.to(receiver.toString()).emit('receiveNotification', notification);
+      if (req.user.role !== 'admin') {
+        // Broadcast real-time message to all active admin rooms
+        const adminUsers = await User.find({ role: 'admin' }).select('_id');
+        adminUsers.forEach(adm => {
+          io.to(adm._id.toString()).emit('receiveMessage', message);
+          io.to(adm._id.toString()).emit('receiveNotification', notification);
+        });
+      } else {
+        // Admin sending directly to customer
+        io.to(receiver.toString()).emit('receiveMessage', message);
+        io.to(receiver.toString()).emit('receiveNotification', notification);
+      }
     }
 
     res.json({ success: true, data: message, notification });
@@ -104,28 +129,53 @@ exports.sendMessage = async (req, res) => {
 
 exports.getAllConversations = async (req, res) => {
   try {
-    const messages = await Message.find({
-      $or: [{ sender: req.user.id }, { receiver: req.user.id }]
-    }).sort({ createdAt: -1 });
+    const adminUsers = await User.find({ role: 'admin' }).select('_id');
+    const adminObjectIds = adminUsers.map(a => a._id);
+    const adminIdStrings = adminUsers.map(a => a._id.toString());
+
+    let query;
+    if (req.user.role === 'admin') {
+      query = {
+        $or: [
+          { receiver: { $in: adminObjectIds } },
+          { sender: { $in: adminObjectIds } },
+          { sender: req.user.id },
+          { receiver: req.user.id }
+        ]
+      };
+    } else {
+      query = {
+        $or: [{ sender: req.user.id }, { receiver: req.user.id }]
+      };
+    }
+
+    const messages = await Message.find(query).sort({ createdAt: -1 });
 
     const conversations = [];
     const seenUsers = new Set();
 
     for (const msg of messages) {
-      const otherUser = msg.sender.toString() === req.user.id ? msg.receiver : msg.sender;
-      if (!seenUsers.has(otherUser.toString())) {
+      let otherUser;
+      if (req.user.role === 'admin') {
+        otherUser = adminIdStrings.includes(msg.sender.toString()) ? msg.receiver : msg.sender;
+      } else {
+        otherUser = msg.sender.toString() === req.user.id ? msg.receiver : msg.sender;
+      }
+
+      if (otherUser && !seenUsers.has(otherUser.toString())) {
         seenUsers.add(otherUser.toString());
         
         // Fetch user details
         const userDetails = await User.findById(otherUser).select('name email');
-        
-        conversations.push({
-          userId: otherUser,
-          userName: userDetails?.name || 'Unknown User',
-          lastMessage: msg.text || 'Image',
-          timestamp: msg.createdAt,
-          isRead: msg.isRead
-        });
+        if (userDetails) {
+          conversations.push({
+            userId: otherUser,
+            userName: userDetails.name || 'Unknown User',
+            lastMessage: msg.text || (msg.image ? 'Image' : ''),
+            timestamp: msg.createdAt,
+            isRead: msg.isRead
+          });
+        }
       }
     }
 
