@@ -24,12 +24,13 @@ const MessageManager = () => {
     });
     setSocket(newSocket);
 
-    if (user) {
-      newSocket.emit('join', user.id);
+    const currentUserId = (user?._id || user?.id)?.toString();
+    if (currentUserId) {
+      newSocket.emit('join', currentUserId);
     }
 
     newSocket.on('receiveMessage', (message) => {
-      if (selectedUser && message.sender === selectedUser.userId) {
+      if (selectedUser && String(message.sender) === String(selectedUser.userId)) {
         setMessages((prev) => [...prev, message]);
       }
       fetchConversations();

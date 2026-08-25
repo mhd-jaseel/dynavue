@@ -49,7 +49,21 @@ exports.login = async (req, res, next) => {
 exports.getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-passwordHash');
-    res.json({ success: true, user });
+    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+    res.json({
+      success: true,
+      user: {
+        id: user._id,
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        profilePic: user.profilePic,
+        phone: user.phone,
+        servicePreferences: user.servicePreferences,
+        createdAt: user.createdAt
+      }
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

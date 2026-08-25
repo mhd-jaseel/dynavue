@@ -21,8 +21,11 @@ const initSocket = (server) => {
     console.log('A user connected:', socket.id);
     
     socket.on('join', (userId) => {
-      socket.join(userId);
-      console.log(`User ${userId} joined room`);
+      if (userId) {
+        const roomId = userId.toString();
+        socket.join(roomId);
+        console.log(`User socket ${socket.id} joined room ${roomId}`);
+      }
     });
     
     socket.on('sendMessage', (data) => {

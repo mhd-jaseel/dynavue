@@ -22,8 +22,9 @@ const ChatBox = () => {
     });
     setSocket(newSocket);
 
-    if (user) {
-      newSocket.emit('join', user.id);
+    const currentUserId = (user?._id || user?.id)?.toString();
+    if (currentUserId) {
+      newSocket.emit('join', currentUserId);
     }
 
     newSocket.on('receiveMessage', (message) => {
