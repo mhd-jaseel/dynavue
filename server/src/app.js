@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { createProxyMiddleware } = require('http-proxy-middleware');
 const errorHandler = require('./middleware/errorHandler');
 
 const authRoutes = require('./routes/auth');
@@ -98,29 +97,10 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend connected successfully!', timestamp: new Date() });
 });
 
-// Unified UI Strategy:
-if (process.env.NODE_ENV !== 'production') {
-  app.use('/', createProxyMiddleware({
-    target: 'http://localhost:5173',
-    changeOrigin: true,
-    ws: true,
-    logLevel: 'silent',
-    filter: (pathname) => !pathname.startsWith('/api')
-  }));
-} else {
-  app.get('/robots.txt', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../client/public/robots.txt'));
-  });
-
-  app.get('/sitemap.xml', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../client/public/sitemap.xml'));
-  });
-
-  app.use(express.static(path.join(__dirname, '../../client/dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
-  });
-}
+// Root API Health Check
+app.get('/', (req, res) => {
+  res.json({ message: 'Dynavue API is running', status: 'healthy' });
+});
 
 app.use(errorHandler);
 
