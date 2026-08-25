@@ -3,6 +3,7 @@ const socketIO = require('socket.io');
 const initSocket = (server) => {
   const allowedOrigins = [
     'http://localhost:5173',
+    'https://dynavue.vercel.app',
     'https://dynavue.in',
     'https://www.dynavue.in',
     process.env.CLIENT_URL
