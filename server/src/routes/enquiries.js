@@ -85,4 +85,19 @@ router.put('/:id', auth, async (req, res, next) => {
   }
 });
 
+router.delete('/:id', auth, async (req, res, next) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Access denied' });
+    }
+    const enquiry = await Enquiry.findByIdAndDelete(req.params.id);
+    if (!enquiry) {
+      return res.status(404).json({ success: false, message: 'Enquiry not found' });
+    }
+    res.json({ success: true, message: 'Enquiry deleted successfully', data: enquiry });
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;
